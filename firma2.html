@@ -1,0 +1,260 @@
+<!DOCTYPE html-->
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+<link rel="stylesheet" href="css/jquery-ui.css" />
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jquery.mobile-1.4.5.min.js"></script> 
+<title>Aplicación Móvil</title>
+<script type="text/javascript">
+    function sumar(){
+var k=Number(document.getElementById('caja_seguridad').value);
+var l=Number(document.getElementById('ropas_vendedor').value);
+var m=Number(document.getElementById('producto_robado').value);
+var n=Number(document.getElementById('danos_caja').value);
+var ñ=Number(document.getElementById('danos_vehiculo').value);
+var o=Number(document.getElementById('vehiculo_dictamen').value);
+var p=Number(document.getElementById('caja_seguridad_dictamen').value);
+var q=Number(document.getElementById('envaces').value);
+var r=Number(document.getElementById('herramientas').value);
+var a=Number(document.getElementById('cheques').value);
+var b=Number(document.getElementById('notas_gastos').value);
+var c=Number(document.getElementById('notas_creditos').value);
+var d=Number(document.getElementById('importe_morralla').value);
+var e=Number(document.getElementById('importe_billetes').value);
+var f=Number(document.getElementById('valor_producto_abordo').value);
+var g=a+b+c+d+e+f;
+document.getElementById('subtotal').value=g;
+var h=Number(document.getElementById('valor_remision').value);
+var j=h-g;
+document.getElementById('importe_robo').value=j;
+var s=k+l+m+ñ+o+p+q+r;
+document.getElementById('total').value=s;
+}
+
+$(document).ready(function inicio(){
+  var clic=false;
+            var xCoord,yCoord="";
+            var canvas=document.getElementById("can");
+            var cntx=canvas.getContext("2d");
+            cntx.strokeStyle="black";
+            cntx.lineWidth=10;
+            cntx.lineCap="round";
+            cntx.fillStyle="#AC2626";
+ cntx.fillRect(0,250,canvas.width,500);
+
+            $("#can").mousedown(function(canvas){
+                clic=true;
+                cntx.save();
+                xCoord=canvas.pageX-this.offsetLeft;
+                yCoord=canvas.pageY-this.offsetTop
+            });
+
+            $(document).mouseup(function(){
+                clic=false
+            });
+
+            $(document).click(function(){
+                clic=false
+            });
+
+            $("#can").mousemove(function(canvas){
+                if(clic==true){
+                    cntx.beginPath();
+                    cntx.moveTo(canvas.pageX-this.offsetLeft,canvas.pageY-this.offsetTop);
+                    cntx.lineTo(xCoord,yCoord);
+                    cntx.stroke();
+                    cntx.closePath();
+                    xCoord=canvas.pageX-this.offsetLeft;
+                    yCoord=canvas.pageY-this.offsetTop
+                }
+            });
+            
+            $("#limpiar").click(function(){
+                cntx.fillStyle="#AC2626";
+                cntx.fillRect(0,250,canvas.width, 500);
+                cntx.strokeStyle="black";
+                cntx.fillStyle="black"
+            });
+
+
+  var btnenviar=$("#enviar");
+                      btnenviar.click(function enviaDatos(){
+                      var fab=$("#fabrica").val();
+                      var age=$("#agencia").val();
+                      var fec=$("#fecha").val();
+                      var nom=$("#nombre").val();
+                      var veh=$("#vehiculo").val();
+                      var rut=$("#ruta").val();
+                      var cal=$("#calle").val();
+                      var ent_cal=$("#entre_calles").val();
+                        var fre=$("#frente").val();
+                        var col=$("#colonia").val();
+                        var del=$("#delegacion").val();
+                        var hor_asa=$("#hora_asalto").val();
+                        var hor_arq=$("#hora_arqueo").val();
+                        var val_rem=$("#valor_remision").val();
+                        var che=$("#cheques").val();
+                        var not_gas=$("#notas_gastos").val();
+                        var not_cre=$("#notas_creditos").val();
+                        var imp_mor=$("#importe_morralla").val();
+                        var imp_bil=$("#importe_billetes").val();
+                        var val_pro_abo=$("#valor_producto_abordo").val();
+                        var sub_tot=$("#subtotal").val();
+                        var imp_rob=$("#importe_robo").val();
+                        var imp_rob_let=$("#importe_robo_letra").val();
+                        var obs=$("#observaciones").val();
+                        var nom_aud=$("#nombre_auditor").val();
+                        var fir_aud=$("#firma_auditor").val();
+                        var nom_tes=$("#nombre_testigo").val();
+                        var fir_tes=$("#firma_testigo").val();
+                        var caj_seg=$("#caja_seguridad").val();
+                        var rop_ven=$("#ropas_vendedor").val();
+                        var pro_rob=$("#producto_robado").val();
+                        var dan_caj=$("#danos_caja").val();
+                        var dan_veh=$("#danos_vehiculo").val();
+                        var veh_dic=$("#vehiculo_dictamen").val();
+                        var caj_seg_dic=$("#caja_seguridad_dictamen").val();
+                        var env=$("#envaces").val();
+                        var her=$("#herramientas").val();
+                        var tot=$("#total").val();
+                        var sus_caj=$("#sustraccion_caja").val();
+    $.ajax({
+            type:"POST",
+            url:"recibirdatos.php",
+            data:"fabrica="+fab+"&agencia="+age+"&fecha="+fec+"&nombre="+nom+"&vehiculo="+veh+"&ruta="+rut+"&calle="+cal+"&entre_calles="+ent_cal+"&frente="+fre+"&colonia="+col+"&delegacion="+del+"&hora_asalto="+hor_asa+"&hora_arqueo="+hor_arq+"&valor_remision="+val_rem+"&cheques="+che+"&notas_gastos="+not_gas+"&notas_creditos="+not_cre+"&importe_morralla="+imp_mor+"&importe_billetes="+imp_bil+"&valor_producto_abordo="+val_pro_abo+"&subtotal="+sub_tot+"&importe_robo="+imp_rob+"&importe_robo_letra="+imp_rob_let+"&observaciones="+obs+"&nombre_auditor="+nom_aud+"&firma_auditor="+fir_aud+"&nombre_testigo="+nom_tes+"&firma_testigo="+fir_tes+"&caja_seguridad="+caj_seg+"&ropas_vendedor="+rop_ven+"&producto_robado="+pro_rob+"&danos_caja="+dan_caj+"&danos_vehiculo="+dan_veh+"&vehiculo_dictamen="+veh_dic+"&caja_seguridad_dictamen="+caj_seg_dic+"&envaces="+env+"&herramientas="+her+"&total="+tot+"&sustraccion_caja="+sus_caj,
+            success: recepcion
+            });
+    
+    function recepcion(datos){
+          //alert(datos);
+          var x=$("#resultado");
+          x.html(datos);
+          }   
+          });
+  
+  var btnConsulta=$("#consultar");//consultar todos los registros
+  btnConsulta.click(function cons(){  
+    $.ajax({
+    type:"POST",
+    url:"consultaBD.php",
+    data:"",
+    success: consultaDatos
+    });
+    
+    function consultaDatos(datos){
+    var respDatos=$.parseJSON(datos);   
+    var respuesta=$("#resconsulta");
+    dibujarTabla(respuesta, respDatos);
+    }
+  });
+  
+  function dibujarTabla(respuesta, respDatos){
+  respuesta.html("");
+    respuesta.append('<table id="tab" border="1">');
+    var tabla=$("#tab");
+    tabla.html("<tr><th>Folio</th><th>Nombre</th><th>Fecha</th><th>Cliente</th><th>Ubicaci&oacute;n</th><th>Agencia</th><th>Fabrica</th></tr>");
+    for(var i in respDatos){
+      tabla.append("<tr><td>"+respDatos[i].folio+"</td>"
+      +"<td>"+respDatos[i].nombre+"</td>"
+      +"<td>"+respDatos[i].fecha+"</td>"
+      +"<td>"+respDatos[i].fabrica+"</td>"
+	  +"<td>"+respDatos[i].calle+"</td>"
+	  +"<td>"+respDatos[i].agencia+"</td>"
+	  +"<td>"+respDatos[i].fabrica+"</td> </tr>");
+    }
+    tabla.append("</table>");
+  }
+  
+  var consultar2=$("#btnconsultar2");
+  consultar2.click(function cons2(){
+  var valConsulta=$("#valConsulta").val();
+    $.ajax({
+      type:"POST",
+      url:"consultaBD2.php",
+      data:"Id="+valConsulta,
+      success: consultaEstudiante
+    });
+    
+    function consultaEstudiante(datos){
+    var respDatos2=$.parseJSON(datos);   
+    var respuesta2=$("#resconsulta2");
+    dibujarTabla(respuesta2, respDatos2);
+    }
+  });
+  
+
+      
+});
+</script>
+<style type="text/css">
+p{
+text-align:center;
+}
+</style>
+</head>
+<body>
+    
+<div data-role="page" id="principal">
+  <div data-role="header" >
+    <p>Arqueo e Informe </p>
+  </div>
+  <div data-role="content">
+    <div>
+      <ul data-role="listview">
+	<li><a href="#registrar" >Registrar Datos</a></li>
+	<li><a href="consulta_r_a.php" >Consultar </a></li>
+	<li><a href="#consulta2" >Consultar Vendedor</a></li>
+	<li><a href="#actualizar" >Actualizar</a></li>
+        <li><a href="#eliminar" >Eliminar</a></li>
+      </ul>
+    </div>
+  </div>
+  <div data-role="footer">
+  <p>Derechos reservados</p>
+  </div>
+</div>
+    
+ <div data-role="page" id="registrar">
+            <div data-role="header">
+                
+            </div>
+            <div data-role="content" >
+                <form method="POST" action="">
+<!--	  <div class="ui-field-contain"> -->
+<canvas id="can" width="500" height="250"  style="border: 1px solid black"></canvas> 
+<!--    <a id="limpiar" href="#">Limpiar</a>  -->
+	  <input type="button" name="enviar" id="enviar" value="Enviar" >	 
+      </form>
+      <div data-transition="flip" id="resultado" >
+      </div>
+            </div>
+            <div data-role="footer">
+                
+            </div>
+        </div>
+    
+<div data-role="page" id="consulta2">
+  <div data-role="header" >
+    <p>Consultar Vendededor</p>
+  </div>
+  <div data-role="content">
+    <label for="valConsulta">Numero de colaborador:</label>
+    <input type="text" id="valConsulta" >
+    <input type="button" id="btnconsultar2" value="Consultar">
+    <div id="resconsulta2"></div>
+  </div>
+  <div data-role="footer">
+  <p>Derechos reservados</p>
+  </div>
+</div>
+
+
+
+    
+
+    
+</body>
+</html>
